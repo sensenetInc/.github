@@ -4,7 +4,7 @@ about: Create a Bug Task
 title: ''
 labels: ''
 assignees: ''
-type: 'Feature'
+type: 'Bug'
 ---
 Your Bug Description
 
