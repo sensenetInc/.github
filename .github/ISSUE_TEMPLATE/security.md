@@ -4,6 +4,6 @@ about: Create a Security Task
 title: ''
 labels: ''
 assignees: ''
-type: 'Task'
+type: 'Security'
 ---
 Your Security Task Description
