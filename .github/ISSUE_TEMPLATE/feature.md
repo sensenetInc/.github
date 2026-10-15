@@ -5,9 +5,8 @@ title: ''
 labels: ''
 assignees: ''
 type: 'Feature'
-Stage: 'Todo'
 ---
-Your Improvement Description 2
+Your Improvement Description
 
 **Supported Roles:**
   - Role 1
