@@ -34,11 +34,10 @@ git push -u origin feat/camera-list
 
 Then open a pull request into `rd`:
 
-1. **Pick the template.** GitHub offers this organization's templates:
-   - `to-develop`: a change into `rd`.
-   - `to-prod-like`: a release, `rd` into `stage` or `stage` into `production`. List every pull request it
-     carries.
-2. **Fill it in:** what and why, the task link, how to test it, and screenshots for anything visible.
+1. **Fill in the template** GitHub puts in the description: what and why, the task link, how to test it,
+   screenshots for anything visible, and its checklist.
+2. **For a release**, use its template instead ([Releases](#releases)): `to-stage` for `rd` into `stage`,
+   `to-production` for `stage` into `production`.
 3. **Merge once CI is green and one person has approved it.** Not your own approval.
 4. **Delete the branch** after merging.
 
@@ -83,13 +82,31 @@ Add a body, after a blank line, when the why isn't obvious from the change.
 
 ## Releases
 
-A release is a pull request from `rd` into `stage`, then from `stage` into `production`, with the `to-prod-like`
-template:
+A release goes up in two pull requests, each with its own template. GitHub has no chooser for them: open each from
+the links below, with `<repo>` replaced, or add `?template=<file>` to a new pull request's URL.
+
+| Step | Pull request | Open it with |
+| --- | --- | --- |
+| Release candidate | `rd` into `stage` | `https://github.com/sensenetInc/<repo>/compare/stage...rd?template=to-stage.md` |
+| Release | `stage` into `production` | `https://github.com/sensenetInc/<repo>/compare/production...stage?template=to-production.md` |
+
+**Into `stage`** (`to-stage`): it decides what's in the release.
 
 1. **Check `CHANGELOG.md`.** Every change since the last release has an entry, under the version being released.
-2. **Open the pull request** and list every change it carries, with its pull request and task.
-3. **Hand it to the platform team** with the changelog entry: they apply any **Config** change in the deployments
+2. **List every pull request it carries**, with its task.
+3. **Hand the Config and database changes to the platform team** for `stage`: they apply them in the deployments
    repo before or with the new image.
+4. **Write the QA plan** and name who tests it on `stage`.
+
+**Into `production`** (`to-production`): it ships exactly what was checked on `stage`.
+
+1. **Link the staging pull request** and record its results: who checked it, when, what they found.
+2. **Nothing new on `stage`** since it was checked. A fix found on `stage` goes into `rd` and comes up through a new
+   staging pull request.
+3. **Hand the Config and database changes to the platform team** for `production`: values may differ from `stage`.
+4. **Agree a release time**, with someone available to watch it and roll it back.
+5. **Write the rollback:** the previous `sha-<commit>` tag, and whether it still runs after any schema change.
+6. **Watch it after the deploy**, as the template's "After the deploy" says.
 
 ## Issues
 

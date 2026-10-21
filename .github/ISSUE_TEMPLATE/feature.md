@@ -6,7 +6,7 @@ labels: ''
 assignees: ''
 type: 'Feature'
 ---
-Your Improvement Description
+Your Feature Description
 
 **Supported Roles:**
   - Role 1

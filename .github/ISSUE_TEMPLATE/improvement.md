@@ -1,6 +1,6 @@
 ---
 name: Improvement
-about: Create a Improvement Task
+about: Create an Improvement Task
 title: ''
 labels: ''
 assignees: ''
