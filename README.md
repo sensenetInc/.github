@@ -8,7 +8,7 @@ copied into each repo.
 
 | Path | What | Used by |
 | --- | --- | --- |
-| `CONTRIBUTING.md` | Branches, workflow, commit messages, rules, releases | Every repo's README, "Contributing", links to it. GitHub also links it when someone opens an issue or pull request |
+| `CONTRIBUTING.md` | Branches, workflow, commit messages, rules, configuration and secrets, deploy config files, releases | Every repo's README, "Contributing", links to it. GitHub also links it when someone opens an issue or pull request |
 | `.github/pull_request_template.md` | The default pull request description: a change into `rd` | Every new pull request |
 | `.github/PULL_REQUEST_TEMPLATE/to-stage.md` | A release candidate: `rd` into `stage`. Included changes, config for `stage`, QA plan | Pull requests opened with `?template=to-stage.md` in the URL |
 | `.github/PULL_REQUEST_TEMPLATE/to-production.md` | A release: `stage` into `production`. Staging results, config for `production`, release time, rollback, what to watch | Pull requests opened with `?template=to-production.md` in the URL |
