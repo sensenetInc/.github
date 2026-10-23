@@ -131,7 +131,7 @@ Every repo that deploys to Kubernetes has its settings in `config/<environment>/
 ```text
 config/
   rd/
-    stream.env          # what R&D runs
+    core.env            # what R&D runs
   stage/                # added with the first stage deploy
   production/           # added with the first production deploy
 ```
