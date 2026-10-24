@@ -1,0 +1,29 @@
+# Who reviews changes to this repo. GitHub requests a review from the matching owners on every pull request, and,
+# with branch protection's "Require review from Code Owners" on, an owner must approve before merging.
+# The last matching line wins. Every file here applies to every repo in the organization, so changes are reviewed
+# by the people who run how we work.
+#
+# Teams are managed in the organization's settings, under Teams. A team listed here must have write access to
+# this repo, or GitHub ignores the line.
+
+# Everything
+*                                   @sensenetInc/platform
+
+# How we work, and the policies every repo inherits
+/CONTRIBUTING.md                    @sensenetInc/platform @sensenetInc/leads
+/CODE_OF_CONDUCT.md                 @sensenetInc/leads
+/SUPPORT.md                         @sensenetInc/platform
+/SECURITY.md                        @sensenetInc/security @sensenetInc/leads
+/LICENSE                            @sensenetInc/leads
+
+# Templates every repo uses
+/.github/ISSUE_TEMPLATE/            @sensenetInc/platform
+/.github/ISSUE_TEMPLATE/security.md @sensenetInc/platform @sensenetInc/security
+/.github/pull_request_template.md   @sensenetInc/platform
+/.github/PULL_REQUEST_TEMPLATE/     @sensenetInc/platform @sensenetInc/leads
+
+# The organization's public profile
+/profile/                           @sensenetInc/leads
+
+# This file
+/.github/CODEOWNERS                 @sensenetInc/leads

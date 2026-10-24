@@ -8,7 +8,14 @@ copied into each repo.
 
 | Path | What | Used by |
 | --- | --- | --- |
-| `CONTRIBUTING.md` | Branches, workflow, commit messages, rules, configuration and secrets, deploy config files, releases | Every repo's README, "Contributing", links to it. GitHub also links it when someone opens an issue or pull request |
+| `CONTRIBUTING.md` | Branches, workflow, commit messages, rules, configuration and secrets, deploy config files, releases, what every repo has, the changelog format, CI | Every repo's README, "Contributing", links to it. GitHub also links it when someone opens an issue or pull request |
+| `SECURITY.md` | How to report a vulnerability, response times, leaked secrets, scope | Every repo's **Security** tab, and the **New issue** page |
+| `CODE_OF_CONDUCT.md` | How we treat each other, and how to report a breach | Every repo's community profile |
+| `SUPPORT.md` | Where to go with a question or a problem | Every repo, linked when someone opens an issue |
+| `profile/README.md` | The organization's public profile | `github.com/sensenetInc` |
+| `LICENSE` | Proprietary, all rights reserved | This repo only: each repo keeps its own copy |
+| `.github/CODEOWNERS` | Who reviews changes here | This repo only |
+| `CHANGELOG.md` | What changed in these files, and what it changes for every repo | This repo only |
 | `.github/pull_request_template.md` | The default pull request description: a change into `rd` | Every new pull request |
 | `.github/PULL_REQUEST_TEMPLATE/to-stage.md` | A release candidate: `rd` into `stage`. Included changes, config for `stage`, QA plan | Pull requests opened with `?template=to-stage.md` in the URL |
 | `.github/PULL_REQUEST_TEMPLATE/to-production.md` | A release: `stage` into `production`. Staging results, config for `production`, release time, rollback, what to watch | Pull requests opened with `?template=to-production.md` in the URL |
@@ -17,9 +24,12 @@ copied into each repo.
 
 ## How GitHub uses them
 
-- **A repo's own file wins.** A repo with its own `CONTRIBUTING.md`, `pull_request_template.md` or
-  `ISSUE_TEMPLATE/` folder uses that instead of these, for that kind of file only. Don't add one unless the repo
-  really works differently.
+- **A repo's own file wins.** A repo with its own `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`,
+  `SUPPORT.md`, `pull_request_template.md` or `ISSUE_TEMPLATE/` folder uses that instead of these, for that kind of
+  file only. Don't add one unless the repo really works differently.
+- **Not everything is inherited.** `LICENSE`, `CODEOWNERS`, `CHANGELOG.md` and workflows apply only to the repo
+  they're in: every repo keeps its own (`CONTRIBUTING.md`, "Every repo has").
+- **`profile/README.md`** is shown on the organization's page to everyone: keep it free of anything internal.
 - **This repo must be public** for GitHub to apply its files to the other repos, even private ones. If it's
   private, nothing here is applied: repos get no templates, and only the README links reach `CONTRIBUTING.md`.
 - **Only the default branch counts:** `production`. Changes apply as soon as they're merged there.

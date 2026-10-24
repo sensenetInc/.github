@@ -180,6 +180,63 @@ the links below, with `<repo>` replaced, or add `?template=<file>` to a new pull
 5. **Write the rollback:** the previous `sha-<commit>` tag, and whether it still runs after any schema change.
 6. **Watch it after the deploy**, as the template's "After the deploy" says.
 
+## Every repo has
+
+GitHub applies this organization's `SECURITY.md`, `CODE_OF_CONDUCT.md`, `SUPPORT.md`, `CONTRIBUTING.md` and
+templates to every repo. These it doesn't: each repo keeps its own.
+
+| File | What | Start from |
+| --- | --- | --- |
+| `README.md` | What it is, how to run it, its variables, "Kubernetes" and "Contributing" | An existing repo's README |
+| `CHANGELOG.md` | One entry per release, read by the platform team ([Changelog](#changelog)) | The template below |
+| `LICENSE` | Proprietary: all rights reserved | A copy of this organization's [LICENSE](LICENSE) |
+| `.github/CODEOWNERS` | Who reviews which paths | This repo's [.github/CODEOWNERS](.github/CODEOWNERS), with the repo's own owners |
+| `.github/workflows/image.yml` | Builds and pushes the image ([CI](#ci)) | `wildfire-backend`'s README, "CI setup" |
+| `config/rd/<workload>.env` | The settings CD deploys ([Deploy config files](#deploy-config-files)) | |
+| `.env.example` | Every env var, secrets as `CHANGE_ME` ([Configuration and secrets](#configuration-and-secrets)) | |
+| `.gitignore` | At least `.env`, `.idea/`, `.DS_Store`, and the language's build output | |
+
+## Changelog
+
+Every repo has a `CHANGELOG.md`: the platform team deploys from it, so a release isn't handed over without its
+entry. Newest first, one entry per version:
+
+```markdown
+## vX.Y.Z (YYYY-MM-DD)
+
+Changes:
+- What changed, for someone who uses the service: a feature, a fix, a behaviour.
+
+Config:
+- New env var `FOO` (required / default `bar`): what it does.
+- Removed env var `BAR`: what replaces it.
+- None
+
+Database:
+- New column `checks.fps`, added at startup; older versions ignore it.
+- None
+```
+
+- **Versions** follow [semantic versioning](https://semver.org): a breaking change to the contract is a new major
+  version, a new feature a minor, a fix a patch. Until `v1.0.0`, a breaking change is a new minor.
+- **Unreleased changes** go under `## vX.Y.Z (unreleased)`, at the top, as they're merged into `rd`. The release
+  pull request into `stage` sets the date.
+- **Config** lists every change to the contract (env vars, endpoints, message and file shapes, ports, queues,
+  volumes), even small ones, or `None`. **Database** is for repos with a schema.
+- **Never a secret's value,** only its key and which Secret it's in.
+
+## CI
+
+Every repo that ships an image builds it on every push to `rd`, `stage` or `production`, with two tags:
+
+| Tag | Moves? | Use |
+| --- | --- | --- |
+| `:<branch>`, e.g. `:rd` | Yes, to the latest build of that branch | What the environment runs |
+| `:sha-<commit>`, e.g. `:sha-1a2b3c4` | No | Rollbacks, and seeing exactly what's running |
+
+Nobody needs registry credentials on their own machine: only CI pushes images. How to set up CI for a new repo is
+in `wildfire-backend`'s README, "CI setup".
+
 ## Issues
 
 Open issues with this organization's templates: **Feature**, **Improvement**, **Bug**, **Security** or **General
