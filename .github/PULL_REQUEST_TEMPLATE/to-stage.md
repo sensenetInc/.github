@@ -21,7 +21,7 @@ Every pull request merged into `rd` since the last release to `stage`:
 
 ## Config and database changes for stage
 
-Copied from `CHANGELOG.md`: what the platform team must change in the deployments repo for `stage`, before or with
+Copied from `CHANGELOG.md`: what the platform team must change for `stage`, before or with
 this image (env vars, Secrets, endpoints, schema). Otherwise: `None`.
 
 ## QA plan

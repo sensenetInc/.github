@@ -35,8 +35,8 @@ Target times to a fix in `production`, from confirmation:
 
 | Severity | Examples | Target |
 | --- | --- | --- |
-| **Critical** | Remote code execution, leaked production credentials, access to every camera or every user's data | 2 days |
-| **High** | Access to another user's data or cameras, bypassing authentication | 7 days |
+| **Critical** | Remote code execution, leaked production credentials, access to every user's data | 2 days |
+| **High** | Access to another user's data, bypassing authentication | 7 days |
 | **Medium** | Information disclosure with limited impact, missing hardening that an attacker needs other access to exploit | 30 days |
 | **Low** | Best-practice gaps with no practical exploit | Next planned release |
 
@@ -66,15 +66,15 @@ never skipped.
 
 ## Scope
 
-In scope: every repo in `sensenetInc`, and the services and environments they deploy, including
-`rd.wildfires.app` and its subdomains.
+In scope: every repo in `sensenetInc`, and the services and environments they deploy, including their public
+domains.
 
 Out of scope:
 
 - Denial of service, load or volume testing, and spam.
-- Social engineering of Sensenet staff, and physical attacks on offices, sites, cameras or devices.
+- Social engineering of Sensenet staff, and physical attacks on offices, sites or devices.
 - Reports from automated scanners with no demonstrated impact.
-- Third-party services we use (Cloudflare, OVHcloud, GitHub, OpenAI): report those to their owners.
+- Third-party services we use: report those to their owners.
 
 ## Testing in good faith
 

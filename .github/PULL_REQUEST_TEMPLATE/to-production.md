@@ -15,7 +15,7 @@ Who checked it on `stage`, when, and what they found (issues fixed, issues accep
 
 ## Config and database changes for production
 
-What the platform team must change in the deployments repo for `production`, before or with this image. Values
+What the platform team must change for `production`, before or with this image. Values
 may differ from `stage`: other hosts, other Secrets. Otherwise: `None`.
 
 ## Release time
