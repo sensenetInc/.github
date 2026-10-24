@@ -13,13 +13,17 @@ Changes:
 - `LICENSE`: proprietary, all rights reserved.
 - `.github/CODEOWNERS`: review owners for this repo.
 - `profile/README.md`: the organization's public profile page.
-- `CONTRIBUTING.md`: new sections "Every repo has", "Changelog" and "CI".
+- `CONTRIBUTING.md`: new sections "Every repo has" and "Changelog". "Configuration and secrets", "Deploy config
+  files" and "CI" moved to the private deployments repo, `app-repos.md`, since this repo is public.
+- Templates and policies no longer name internal tools, Secret names or image tags.
 
 Affects every repo:
 - GitHub shows `SECURITY.md`, `CODE_OF_CONDUCT.md` and `SUPPORT.md` in every repo without its own, and links the
   security policy from the **New issue** page.
 - Each repo should add its own `LICENSE` and `.github/CODEOWNERS` (`CONTRIBUTING.md`, "Every repo has"): GitHub
   doesn't inherit those.
+- Links to `CONTRIBUTING.md#configuration-and-secrets` and `#deploy-config-files` now point to the deployments
+  repo's `app-repos.md`, same anchors.
 
 ## v1.0.0 (2026-10-21)
 

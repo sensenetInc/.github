@@ -16,7 +16,7 @@ Who checked it on `stage`, when, and what they found (issues fixed, issues accep
 ## Config and database changes for production
 
 What the platform team must change for `production`, before or with this image. Values
-may differ from `stage`: other hosts, other Secrets. Otherwise: `None`.
+may differ from `stage`. Otherwise: `None`.
 
 ## Release time
 
@@ -24,7 +24,7 @@ When it goes out, and who is available to watch it and roll it back.
 
 ## Rollback
 
-- Previous version: `sha-`
+- Previous version:
 - Does it still run after this release's schema changes? Yes / no: if no, how to go back instead.
 
 ## After the deploy

@@ -45,8 +45,7 @@ Target times to a fix in `production`, from confirmation:
 A password, token, key or `.env` file that reached a commit, an image, a log, an issue or a chat is leaked, even if
 it's deleted right away: it stays in git history and in every image built from it.
 
-1. **Rotate it first**, wherever it's used: every copy in every Secret
-   ([CONTRIBUTING.md, "Configuration and secrets"](CONTRIBUTING.md#configuration-and-secrets)).
+1. **Rotate it first**, everywhere it's used.
 2. **Then remove it** from the repo or the place it leaked.
 3. **Report it** with the **Security** template: what leaked (by name, never by value), where, for how long, and
    that it's rotated.

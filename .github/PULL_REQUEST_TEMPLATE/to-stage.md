@@ -13,8 +13,8 @@ Every pull request merged into `rd` since the last release to `stage`:
 
 - **Feature:** Title
   - PR: #123
-  - Task: Jira epic, or the task key for a single task
-  - Ideation: Confluence link, if any
+  - Task: the task link
+  - Design: link, if any
 - **Fix:** Title
   - PR: #124
   - Task:

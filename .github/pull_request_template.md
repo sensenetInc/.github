@@ -32,4 +32,4 @@ Design decisions, edge cases, anything the reviewer should look at closely. Othe
 
 - [ ] The repo's check passes (its README, "Contributing")
 - [ ] `CHANGELOG.md` updated, under **Config**, if env vars, endpoints, message shapes, ports or the schema changed
-- [ ] No secrets, `.env` files or credentials in the diff
+- [ ] No secrets or credentials in the diff
