@@ -40,3 +40,7 @@ What to watch, and for how long: logs, dashboards, error rates, key flows to try
 - [ ] No new commits on `stage` since it was checked
 - [ ] Config and database changes for `production` handed to the platform team
 - [ ] Release time agreed, and someone available to roll back
+- [ ] Approved by a code owner and a release manager (the go/no-go)
+
+On merge, CI tags the version from `CHANGELOG.md`, creates its GitHub Release, and sends the release notes to
+`releases.wildfires.app`. Don't create the tag by hand: only CI can.

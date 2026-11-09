@@ -8,13 +8,15 @@ commit, and which changes go in its `CHANGELOG.md`.
 
 | Branch | What | How it changes |
 | --- | --- | --- |
-| `rd` | R&D environment. The default branch: all work starts from it | Pull requests from your branches |
+| `rd` | R&D environment. All work starts from it and goes back into it | Pull requests from your branches |
 | `stage` | Staging | Pull request from `rd` only |
-| `production` | Production | Pull request from `stage` only |
+| `production` | Production. **The default branch** | Pull request from `stage` only |
 | `feat/...`, `fix/...`, … | Your work, one branch per change | You push to it |
 
-- **Each environment branch is deployed.** So nobody pushes to `rd`, `stage` or `production` directly: they change
-  only through pull requests.
+- **Each environment branch is deployed and protected.** Nobody pushes to `rd`, `stage` or `production` directly:
+  they change only through pull requests, with a code owner's approval and green checks.
+- **`production` is the default branch,** so GitHub shows it first and suggests it as a pull request's base. Your
+  pull requests go into **`rd`**: pick it as the base when you open one.
 - **Changes move up in order:** `rd`, then `stage`, then `production`. A fix goes into `rd` first and is promoted
   like everything else. Never merge a feature branch into `stage` or `production`.
 - **Name your branch** `<type>/<what>`, with the same types as commit messages: `feat/user-export`,
@@ -31,17 +33,39 @@ git commit -m "feat: add user export"
 git push -u origin feat/user-export
 ```
 
-Then open a pull request into `rd`:
+Then open a pull request into `rd` (not the default `production`):
 
 1. **Fill in the template** GitHub puts in the description: what and why, the task link, how to test it,
    screenshots for anything visible, and its checklist.
 2. **For a release**, use its template instead ([Releases](#releases)): `to-stage` for `rd` into `stage`,
    `to-production` for `stage` into `production`.
-3. **Merge once CI is green and one person has approved it.** Not your own approval.
+3. **Merge once every required check is green and a code owner has approved it.** Not your own approval. A new
+   push clears earlier approvals, so the reviewer approves what's actually merged.
 4. **Delete the branch** after merging.
 
 Keep pull requests small: one feature or fix each, reviewable in one sitting. Rebase on `rd` (or merge `rd` in) if
 it moved while you worked.
+
+## Checks on every pull request
+
+GitHub won't merge a pull request until its required checks pass. Which are required is set for the whole
+organization, so they're the same in every repo.
+
+| Check | Looks for | When it fails |
+| --- | --- | --- |
+| `security / secrets` | Passwords, tokens and keys in your commits (gitleaks) | Rotate the secret first, then remove it from your branch ([SECURITY.md](SECURITY.md#a-secret-leaked)) |
+| `security / sast` | Security flaws in our own code (Semgrep) | Fix it, or ask `@sensenetInc/security` for an exception |
+| `security / dependencies` | Libraries with a known high or critical CVE that has a fix, or a licence we don't allow (Trivy) | Update the library; Renovate's pull requests usually already do |
+| `security / iac` | Risky Dockerfiles and Kubernetes manifests (Trivy, Hadolint) | Fix the file, or ask for an exception |
+| `docs / docs` | `docs/` exists, builds, and changes with `config/` | Update `docs/` in the same pull request |
+| `ci-security-review / review` | An AI security review of the change, into `rd` only | Fix the high findings, or `@sensenetInc/security` accepts them with the `security-review-accepted` label |
+| `release-source / source` | `stage` takes pull requests from `rd` only, `production` from `stage` only | Open it from the right branch ([Releases](#releases)) |
+
+- **Only new findings block.** What was already there when a check was turned on is tracked separately.
+- **Exceptions** live in `.trivyignore`, `.semgrepignore` or `.gitleaksignore`, each with a reason and an expiry,
+  and only `@sensenetInc/security` approves changes to them.
+- **Turn on the secrets hook** once per clone, so a secret is caught before it's committed: `pipx install pre-commit`,
+  then `pre-commit install` in the repo.
 
 ## Commit messages
 
@@ -78,6 +102,8 @@ Add a body, after a blank line, when the why isn't obvious from the change.
    from the changelog. Each README lists what counts as contract for that repo.
 5. **No force-push** to `rd`, `stage` or `production`. On your own branch it's fine.
 6. **Don't merge your own pull request without a review**, and don't merge one whose CI is red.
+7. **Keep `docs/` current.** A change to how a repo is installed, configured, connected or run updates its
+   `docs/` in the same pull request.
 
 ## Releases
 
@@ -91,7 +117,8 @@ the links below, with `<repo>` replaced, or add `?template=<file>` to a new pull
 
 **Into `stage`** (`to-stage`): it decides what's in the release.
 
-1. **Check `CHANGELOG.md`.** Every change since the last release has an entry, under the version being released.
+1. **Check `CHANGELOG.md`.** Every change since the last release has an entry, under the version being released,
+   and its **Release notes** read well for customers.
 2. **List every pull request it carries**, with its task.
 3. **Hand the Config and database changes to the platform team** for `stage`: they apply them before or with the
    new image.
@@ -105,7 +132,11 @@ the links below, with `<repo>` replaced, or add `?template=<file>` to a new pull
 3. **Hand the Config and database changes to the platform team** for `production`: values may differ from `stage`.
 4. **Agree a release time**, with someone available to watch it and roll it back.
 5. **Write the rollback:** the previous version, and whether it still runs after any schema change.
-6. **Watch it after the deploy**, as the template's "After the deploy" says.
+6. **Two approvals:** a code owner and a release manager (the go/no-go).
+7. **Watch it after the deploy**, as the template's "After the deploy" says.
+
+On merge into `production`, CI tags the version (`vX.Y.Z`, from `CHANGELOG.md`), creates its GitHub Release, and
+sends its release notes to `releases.wildfires.app`. Tags can't be created, moved or deleted by hand.
 
 ## Every repo has
 
@@ -119,8 +150,11 @@ templates to every repo. These it doesn't: each repo keeps its own.
 | `LICENSE` | Proprietary: all rights reserved | A copy of this organization's [LICENSE](LICENSE) |
 | `.github/CODEOWNERS` | Who reviews which paths | This repo's [.github/CODEOWNERS](.github/CODEOWNERS), with the repo's own owners |
 | `.gitignore` | At least `.env`, `.idea/`, `.DS_Store`, and the language's build output | |
+| `docs/` | Install, how it works, integrations, configuration, operations, contributing, releases | `templates/repo/docs/` in `sensenetInc/github-org` |
+| `.github/workflows/ci.yml` | The checks above, and for repos that deploy, the image build and release | `templates/repo/` in `sensenetInc/github-org` |
+| `.pre-commit-config.yaml`, `renovate.json` | The secrets hook; dependency updates | `templates/repo/` in `sensenetInc/github-org` |
 
-Repos that deploy have a few more, described in the platform team's docs (private).
+`sensenetInc/github-org` is private: org members can open it.
 
 ## Changelog
 
@@ -130,15 +164,18 @@ entry. Newest first, one entry per version:
 ```markdown
 ## vX.Y.Z (YYYY-MM-DD)
 
-Changes:
+### Release notes
+- Camera streams reconnect on their own after a network drop.
+
+### Changes
 - What changed, for someone who uses the service: a feature, a fix, a behaviour.
 
-Config:
+### Config
 - New env var `FOO` (required / default `bar`): what it does.
 - Removed env var `BAR`: what replaces it.
 - None
 
-Database:
+### Database
 - New column `orders.note`, added at startup; older versions ignore it.
 - None
 ```
@@ -149,6 +186,11 @@ Database:
   pull request into `stage` sets the date.
 - **Config** lists every change to the contract (env vars, endpoints, message and file shapes, ports, queues,
   volumes), even small ones, or `None`. **Database** is for repos with a schema.
+- **Release notes** are public: published on `releases.wildfires.app` when the version reaches `production`. Plain
+  language for customers, nothing internal (no hostnames, env vars or queue names), or `None`.
+- **Changes, Config, Database** are internal: in the repo and its GitHub Release only.
+- **The release workflow reads this format:** the newest `## vX.Y.Z` heading is the version it tags, and the
+  `### Release notes` section is what it publishes.
 - **Never a secret's value,** only its key.
 
 ## Issues

@@ -22,6 +22,19 @@ copied into each repo.
 | `.github/ISSUE_TEMPLATE/*.md` | Feature, Improvement, Bug, Security and General Task | The **New issue** chooser |
 | `.github/ISSUE_TEMPLATE/config.yml` | Turns off blank issues | The **New issue** chooser |
 
+## What never goes here
+
+This repo is **public**, and so are its Actions logs. Keep out:
+
+- **Workflows and CI jobs:** shared workflows, the Renovate job, scanner configs and Terraform for the repos' rules are
+  in the private [`sensenetInc/github-org`](https://github.com/sensenetInc/github-org). This repo has no workflows.
+- **Secrets and variables:** none are set on this repo.
+- **Anything internal:** hostnames, queue or Secret names, customer names, links to private docs.
+
+Its own rules come from `sensenetInc/github-org`'s Terraform like every repo's: pull request into `production`, a code
+owner's approval, no force-push. Fork pull requests need a maintainer's approval to run anything (Settings → Actions
+→ General).
+
 ## How GitHub uses them
 
 - **A repo's own file wins.** A repo with its own `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`,
@@ -32,7 +45,8 @@ copied into each repo.
 - **`profile/README.md`** is shown on the organization's page to everyone: keep it free of anything internal.
 - **This repo must be public** for GitHub to apply its files to the other repos, even private ones. If it's
   private, nothing here is applied: repos get no templates, and only the README links reach `CONTRIBUTING.md`.
-- **Only the default branch counts:** `production`. Changes apply as soon as they're merged there.
+- **Only the default branch counts:** `production`, as in every repo. Changes apply as soon as they're merged
+  there. This repo isn't deployed, so it has only `production`, no `rd` or `stage`.
 - **Issue types:** each issue template sets `type:` (Feature, Improvement, Bug, Security, Task). A type takes effect
   only if it exists in the organization's settings, under **Issue types**. GitHub creates Task, Bug and Feature;
   Improvement and Security must be added there.
@@ -43,7 +57,7 @@ copied into each repo.
 
 ## Changing them
 
-Through a pull request into `production`, like any other change ([CONTRIBUTING.md](CONTRIBUTING.md)). Everything
+Through a pull request into `production`, reviewed by a code owner, like any other change ([CONTRIBUTING.md](CONTRIBUTING.md)). Everything
 here applies to every repo at once, so:
 
 - **Keep templates short.** Every field is something people fill in on every issue or pull request.

@@ -83,6 +83,10 @@ that research. Don't access, change or delete data that isn't yours, and don't k
 
 ## Security work inside Sensenet
 
+Every pull request is scanned for secrets, code flaws, vulnerable dependencies and risky configuration before it can
+merge ([CONTRIBUTING.md, "Checks on every pull request"](CONTRIBUTING.md#checks-on-every-pull-request)), and
+every image is scanned and signed before it can run.
+
 Known gaps and hardening work are tracked as issues with the **Security** template, typed **Security**. They
 follow [CONTRIBUTING.md](CONTRIBUTING.md) like any change: a pull request into `rd`, reviewed by someone other than
 the author.

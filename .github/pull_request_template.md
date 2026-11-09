@@ -24,6 +24,11 @@ Exact steps for the reviewer: URLs, API calls or commands, and what to expect.
 
 Before and after, for any change you can see. Otherwise: `N/A`.
 
+## Release note
+
+One plain-language line for customers, copied into `CHANGELOG.md` under **Release notes** (published on
+`releases.wildfires.app`). Otherwise: `None`.
+
 ## Technical notes
 
 Design decisions, edge cases, anything the reviewer should look at closely. Otherwise: `N/A`.
@@ -32,4 +37,6 @@ Design decisions, edge cases, anything the reviewer should look at closely. Othe
 
 - [ ] The repo's check passes (its README, "Contributing")
 - [ ] `CHANGELOG.md` updated, under **Config**, if env vars, endpoints, message shapes, ports or the schema changed
+- [ ] `docs/` updated if setup, configuration, integrations or operations changed
 - [ ] No secrets or credentials in the diff
+- [ ] Every required check is green; the security review's comments are answered (fixed, or accepted by security)
