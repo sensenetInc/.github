@@ -57,6 +57,7 @@ organization, so they're the same in every repo.
 | `security / sast` | Security flaws in our own code (Semgrep) | Fix it, or ask `@sensenetInc/security` for an exception |
 | `security / dependencies` | Libraries with a known high or critical CVE that has a fix, or a licence we don't allow (Trivy) | Update the library; Renovate's pull requests usually already do |
 | `security / iac` | Risky Dockerfiles and Kubernetes manifests (Trivy, Hadolint) | Fix the file, or ask for an exception |
+| `pr-title / title` | The PR title follows [Commit messages](#commit-messages), into `rd` only | Edit the title; the check re-runs |
 | `docs / docs` | `docs/` exists, builds, and changes with `config/` | Update `docs/` in the same pull request |
 | `ci-security-review / review` | An AI security review of the change, into `rd` only | Fix the high findings, or `@sensenetInc/security` accepts them with the `security-review-accepted` label |
 | `release-source / source` | `stage` takes pull requests from `rd` only, `production` from `stage` only | Open it from the right branch ([Releases](#releases)) |
@@ -69,22 +70,31 @@ organization, so they're the same in every repo.
 
 ## Commit messages
 
-`<type>: <what>`, short, lowercase, in the imperative ("add", not "added"), with no period at the end.
+Pull requests into `rd` are squash-merged, so each one becomes a single commit and **its title is the commit
+message**. The `pr-title / title` check enforces the format; the commits inside your branch can say anything.
+
+`<type>: <what>`, short, lowercase, in the imperative ("add", not "added"), with no period at the end. No scope in
+parentheses: the repo already says which service changed.
 
 | Type | For |
 | --- | --- |
 | `feat` | A new feature or behaviour |
 | `fix` | A bug fix |
+| `perf` | Faster or lighter, behaviour the same |
 | `refactor` | Code changed, behaviour not |
 | `test` | Tests only |
 | `docs` | Documentation only |
+| `build` | Build, Dockerfile, packaging |
 | `ci` | CI workflows |
 | `chore` | Dependencies, tooling, anything else |
+| `revert` | Undoes an earlier change (GitHub's `Revert "…"` title is accepted too) |
 
-Examples: `feat: add CSV export`, `fix: refuse requests without a token`,
-`docs: explain the retry policy`.
+Add `!` before the colon when the change breaks callers or config: `feat!: drop the v1 perimeter endpoint`.
 
-Add a body, after a blank line, when the why isn't obvious from the change.
+Examples: `feat: add CSV export`, `fix: refuse requests without a token`, `docs: explain the retry policy`.
+
+Put the why in the PR description: it becomes the commit body. Promotion pull requests (`rd` → `stage` →
+`production`) are merge commits and their titles aren't checked.
 
 ## Rules
 
