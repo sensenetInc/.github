@@ -43,7 +43,8 @@ Then open a pull request into `rd` (not the default `production`):
    screenshots for anything visible, and its checklist.
 2. **For a release**, use its template instead ([Releases](#releases)): `to-stage` for `rd` into `stage`,
    `to-production` for `stage` into `production`.
-3. **Merge once every required check is green and a code owner has approved it.** Not your own approval. A new
+3. **Merge once every required check is green and it's approved:** into `rd`, by a code owner (`platform`, for now); into `stage` and `production`, by someone from each of `platform`, `release-managers` and
+   `security` (one person in several of them covers each). Not your own approval. A new
    push clears earlier approvals, so the reviewer approves what's actually merged.
 4. **Delete the branch** after merging.
 
@@ -146,7 +147,8 @@ the links below, with `<repo>` replaced, or add `?template=<file>` to a new pull
 3. **Hand the Config and database changes to the platform team** for `production`: values may differ from `stage`.
 4. **Agree a release time**, with someone available to watch it and roll it back.
 5. **Write the rollback:** the previous version, and whether it still runs after any schema change.
-6. **Two approvals:** a code owner and a release manager (the go/no-go).
+6. **Approval from each team:** `platform`, `release-managers` (the go/no-go) and `security`. One person who is in
+   several of them covers each.
 7. **Watch it after the deploy**, as the template's "After the deploy" says.
 
 On merge into `production`, CI tags the version (`vX.Y.Z`, from `CHANGELOG.md`), creates its GitHub Release, and
@@ -162,7 +164,7 @@ templates to every repo. These it doesn't: each repo keeps its own.
 | `README.md` | What it is, how to run it, its variables and "Contributing" | An existing repo's README |
 | `CHANGELOG.md` | One entry per release, read by the platform team ([Changelog](#changelog)) | The template below |
 | `LICENSE` | Proprietary: all rights reserved | A copy of this organization's [LICENSE](LICENSE) |
-| `.github/CODEOWNERS` | Who reviews which paths | This repo's [.github/CODEOWNERS](.github/CODEOWNERS), with the repo's own owners |
+| `.github/CODEOWNERS` | Who approves PRs into `rd` (`platform`, for now) | `templates/repo/.github/CODEOWNERS` in `sensenetInc/github-org` |
 | `.gitignore` | At least `.env`, `.idea/`, `.DS_Store`, and the language's build output | |
 | `docs/` | Install, how it works, integrations, configuration, operations, contributing, releases | `templates/repo/docs/` in `sensenetInc/github-org` |
 | `.github/workflows/ci.yml` | The checks above, and for repos that deploy, the image build and release | `templates/repo/` in `sensenetInc/github-org` |
