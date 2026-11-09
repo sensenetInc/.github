@@ -1,6 +1,6 @@
 <!-- Into rd. For a release, add a template to this page's URL: ?template=to-stage.md (rd into stage) or
      ?template=to-production.md (stage into production).
-     How we work: https://github.com/sensenetInc/.github/blob/production/CONTRIBUTING.md -->
+     How we work: https://github.com/sensenetInc/.github/blob/main/CONTRIBUTING.md -->
 
 ## Summary
 

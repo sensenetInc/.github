@@ -31,7 +31,7 @@ This repo is **public**, and so are its Actions logs. Keep out:
 - **Secrets and variables:** none are set on this repo.
 - **Anything internal:** hostnames, queue or Secret names, customer names, links to private docs.
 
-Its own rules come from `sensenetInc/github-org`'s Terraform like every repo's: pull request into `production`, a code
+Its own rules come from `sensenetInc/github-org`'s Terraform like every repo's: pull request into `main`, a code
 owner's approval, no force-push. Fork pull requests need a maintainer's approval to run anything (Settings → Actions
 → General).
 
@@ -45,8 +45,9 @@ owner's approval, no force-push. Fork pull requests need a maintainer's approval
 - **`profile/README.md`** is shown on the organization's page to everyone: keep it free of anything internal.
 - **This repo must be public** for GitHub to apply its files to the other repos, even private ones. If it's
   private, nothing here is applied: repos get no templates, and only the README links reach `CONTRIBUTING.md`.
-- **Only the default branch counts:** `production`, as in every repo. Changes apply as soon as they're merged
-  there. This repo isn't deployed, so it has only `production`, no `rd` or `stage`.
+- **Only the default branch counts:** `main`. Changes apply as soon as they're merged there. This repo isn't
+  deployed, so it has only `main`, like every repo without environments; only the app repos and `wildfire-k8s-clusters`
+  (one branch per cluster) have `rd`, `stage` and `production`.
 - **Issue types:** each issue template sets `type:` (Feature, Improvement, Bug, Security, Task). A type takes effect
   only if it exists in the organization's settings, under **Issue types**. GitHub creates Task, Bug and Feature;
   Improvement and Security must be added there.
@@ -57,7 +58,7 @@ owner's approval, no force-push. Fork pull requests need a maintainer's approval
 
 ## Changing them
 
-Through a pull request into `production`, reviewed by a code owner, like any other change ([CONTRIBUTING.md](CONTRIBUTING.md)). Everything
+Through a pull request into `main`, reviewed by a code owner, like any other change ([CONTRIBUTING.md](CONTRIBUTING.md)). Everything
 here applies to every repo at once, so:
 
 - **Keep templates short.** Every field is something people fill in on every issue or pull request.

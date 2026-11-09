@@ -1,6 +1,6 @@
 <!-- A release: stage into production. Open it with ?template=to-production.md.
      It ships what was checked on stage, and nothing else.
-     How we release: https://github.com/sensenetInc/.github/blob/production/CONTRIBUTING.md#releases -->
+     How we release: https://github.com/sensenetInc/.github/blob/main/CONTRIBUTING.md#releases -->
 
 ## Release
 

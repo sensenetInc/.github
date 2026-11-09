@@ -13,6 +13,10 @@ commit, and which changes go in its `CHANGELOG.md`.
 | `production` | Production. **The default branch** | Pull request from `stage` only |
 | `feat/...`, `fix/...`, … | Your work, one branch per change | You push to it |
 
+Repos that aren't deployed (shared config, docs) have one branch, **`main`**: open your pull request into it.
+Everything below about `rd`, `stage` and `production` is for the app repos and `wildfire-k8s-clusters`, whose three
+branches are the three clusters.
+
 - **Each environment branch is deployed and protected.** Nobody pushes to `rd`, `stage` or `production` directly:
   they change only through pull requests, with a code owner's approval and green checks.
 - **`production` is the default branch,** so GitHub shows it first and suggests it as a pull request's base. Your

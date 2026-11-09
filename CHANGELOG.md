@@ -11,6 +11,8 @@ Changes:
 - Changelog format: `### Release notes` (public), `### Changes`, `### Config`, `### Database` headings.
 - Pull request templates: a release note line, docs and checks in the checklist; release notes checked in
   `to-stage`; release manager approval in `to-production`.
+- Default branch `main` for this repo and every repo that isn't deployed; app repos keep `rd`, `stage`, `production`
+  (default `production`). Links to these files use `blob/main/`.
 - `README.md`: what never goes in this public repo; shared CI lives in `sensenetInc/github-org`.
 
 Affects every repo:
