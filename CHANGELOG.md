@@ -6,7 +6,7 @@ into `production`, so each entry says what changes for the other repos, under **
 ## v1.1.0 (unreleased)
 
 Changes:
-- `CONTRIBUTING.md`: the checks on every pull request, the PR title as the commit message (`<type>: <summary>`, no scope, squash into `rd`, merge commits for promotions), approval by `platform` or `release-managers` into `rd` and by `platform`, `release-managers` and `security` into `stage` and `production`, one approvals into `production`,
+- `CONTRIBUTING.md`: the checks on every pull request, the PR title as the commit message, PR titles as `<type>: <what>` (no scope) and branches as `<type>/<what>` (squash into `rd`, merge commits for promotions), approval by `platform` or `release-managers` into `rd` and by `platform`, `release-managers` and `security` into `stage` and `production`, one approvals into `production`,
   release tags made by CI, `docs/` in every repo, the secrets pre-commit hook.
 - Changelog format: `### Release notes` (public), `### Changes`, `### Config`, `### Database` headings.
 - Pull request templates: a release note line, docs and checks in the checklist; release notes checked in

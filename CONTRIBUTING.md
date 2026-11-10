@@ -23,8 +23,8 @@ branches are the three clusters.
   pull requests go into **`rd`**: pick it as the base when you open one.
 - **Changes move up in order:** `rd`, then `stage`, then `production`. A fix goes into `rd` first and is promoted
   like everything else. Never merge a feature branch into `stage` or `production`.
-- **Name your branch** `<type>/<what>`, with the same types as commit messages: `feat/user-export`,
-  `fix/empty-images`, `docs/deploy-steps`.
+- **Name your branch** `<type>/<what>`, lowercase with `-` between words: `feat/user-export`, `fix/empty-images`,
+  `docs/deploy-steps`. The `pr-title / title` check enforces it ([PR titles and branches](#pr-titles-and-branches)).
 
 ## Workflow
 
@@ -62,7 +62,7 @@ organization, so they're the same in every repo.
 | `security / sast` | Security flaws in our own code (Semgrep) | Fix it, or ask `@sensenetInc/security` for an exception |
 | `security / dependencies` | Libraries with a known high or critical CVE that has a fix, or a licence we don't allow (Trivy) | Update the library; Renovate's pull requests usually already do |
 | `security / iac` | Risky Dockerfiles and Kubernetes manifests (Trivy, Hadolint) | Fix the file, or ask for an exception |
-| `pr-title / title` | The PR title follows [Commit messages](#commit-messages), into `rd` only | Edit the title; the check re-runs |
+| `pr-title / title` | The PR title and its branch follow [PR titles and branches](#pr-titles-and-branches) | Edit the title (the check re-runs); a wrong branch name needs a new branch and PR |
 | `docs / docs` | `docs/` exists, builds, and changes with `config/` | Update `docs/` in the same pull request |
 | `ci-security-review / review` | An AI security review of the change, into `rd` only | Fix the high findings, or `@sensenetInc/security` accepts them with the `security-review-accepted` label |
 | `release-source / source` | `stage` takes pull requests from `rd` only, `production` from `stage` only | Open it from the right branch ([Releases](#releases)) |
@@ -73,13 +73,18 @@ organization, so they're the same in every repo.
 - **Turn on the secrets hook** once per clone, so a secret is caught before it's committed: `pipx install pre-commit`,
   then `pre-commit install` in the repo.
 
-## Commit messages
+## PR titles and branches
 
 Pull requests into `rd` are squash-merged, so each one becomes a single commit and **its title is the commit
-message**. The `pr-title / title` check enforces the format; the commits inside your branch can say anything.
+message**. Commit messages inside your branch don't matter: write them however you like.
 
-`<type>: <what>`, short, lowercase, in the imperative ("add", not "added"), with no period at the end. No scope in
-parentheses: the repo already says which service changed.
+The branch and the PR title both start with a type: a slash in the branch (Git doesn't allow `:` in branch names), a
+colon in the title. The `pr-title / title` check enforces both.
+
+| | Format | Example |
+| --- | --- | --- |
+| Branch | `<type>/<what>`: lowercase, words joined with `-` | `feat/csv-export` |
+| PR title | `<type>: <what>`: short, in the imperative ("add", not "added"), no period. No scope in parentheses: the repo already says which service changed | `feat: add CSV export` |
 
 | Type | For |
 | --- | --- |
@@ -92,14 +97,16 @@ parentheses: the repo already says which service changed.
 | `build` | Build, Dockerfile, packaging |
 | `ci` | CI workflows |
 | `chore` | Dependencies, tooling, anything else |
-| `revert` | Undoes an earlier change (GitHub's `Revert "…"` title is accepted too) |
+| `revert` | Undoes an earlier change (GitHub's own `Revert "…"` title and `revert-…` branch are accepted too) |
 
-Add `!` before the colon when the change breaks callers or config: `feat!: drop the v1 perimeter endpoint`.
+More examples: `fix: refuse requests without a token` on `fix/require-token`, `docs: explain the retry policy` on
+`docs/retry-policy`.
 
-Examples: `feat: add CSV export`, `fix: refuse requests without a token`, `docs: explain the retry policy`.
+Add `!` before the colon when the change breaks callers or config: `feat!: drop the v1 perimeter endpoint`, and say
+what changes in `CHANGELOG.md`. Put the why in the PR description: it becomes the commit body.
 
-Put the why in the PR description: it becomes the commit body. Promotion pull requests (`rd` → `stage` →
-`production`) are merge commits and their titles aren't checked.
+Promotion pull requests (`rd` → `stage` → `production`) are merge commits and aren't checked, and neither are bots'
+(`renovate/…`, `dependabot/…`, `deploy/…`).
 
 ## Rules
 
