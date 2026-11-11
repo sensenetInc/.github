@@ -10,9 +10,8 @@ commit, and what counts as its contract.
 | --- | --- | --- |
 | `rd` | R&D environment. All work starts from it and goes back into it | Pull requests from your branches |
 | `stage` | Staging | Pull request from `rd` only |
-| `production` | Production. **The default branch** | Pull request from `stage`, or from a `hotfix/...` branch ([Hotfix](#hotfix)) |
+| `production` | Production. **The default branch** | Pull request from `stage` only |
 | `feat/...`, `fix/...`, … | Your work, one branch per change, made from `rd` | You push to it |
-| `hotfix/...` | An urgent production fix, made from `production` ([Hotfix](#hotfix)) | You push to it |
 
 Repos that aren't deployed (shared config, docs) have one branch, **`main`**: open your pull request into it.
 Everything below about `rd`, `stage` and `production` is for the app repos and `wildfire-k8s-clusters`, whose three
@@ -23,8 +22,7 @@ branches are the three clusters.
 - **`production` is the default branch,** so GitHub shows it first and suggests it as a pull request's base. Your
   pull requests go into **`rd`**: pick it as the base when you open one.
 - **Changes move up in order:** `rd`, then `stage`, then `production`. A fix goes into `rd` first and is promoted
-  like everything else. Never merge a feature branch into `stage` or `production`. The one exception is a
-  [hotfix](#hotfix), for a production bug that can't wait.
+  like everything else. Never merge a feature branch into `stage` or `production`.
 - **Name your branch** `<type>/<what>`, lowercase with `-` between words: `feat/user-export`, `fix/empty-images`,
   `docs/deploy-steps`. The `pr-title / title` check enforces it ([PR titles and branches](#pr-titles-and-branches)).
 
@@ -66,7 +64,7 @@ organization, so they're the same in every repo.
 | `security / iac` | Risky Dockerfiles and Kubernetes manifests (Trivy, Hadolint) | Fix the file, or ask for an exception |
 | `pr-title / title` | The PR title and its branch follow [PR titles and branches](#pr-titles-and-branches) | Edit the title (the check re-runs); a wrong branch name needs a new branch and PR |
 | `ci-security-review / review` | An AI security review of the change, into `rd` only | Fix the high findings, or `@sensenetInc/security` accepts them with the `security-review-accepted` label |
-| `release-source / source` | `stage` takes pull requests from `rd` only; `production` from `stage`, or from a `hotfix/...` branch made from `production` that carries nothing from `rd` | Open it from the right branch ([Releases](#releases), [Hotfix](#hotfix)) |
+| `release-source / source` | `stage` takes pull requests from `rd` only, `production` from `stage` only | Open it from the right branch ([Releases](#releases)) |
 
 - **Only new findings block.** What was already there when a check was turned on is tracked separately.
 - **Exceptions** live in `.trivyignore`, `.semgrepignore` or `.gitleaksignore`, each with a reason and an expiry,
@@ -99,6 +97,8 @@ colon in the title. The `pr-title / title` check enforces both.
 | `ci` | CI workflows |
 | `chore` | Dependencies, tooling, anything else |
 | `revert` | Undoes an earlier change (GitHub's own `Revert "…"` title and `revert-…` branch are accepted too) |
+| `release` | The release process: setting a version in `CHANGELOG.md` (`release: v0.2.0` on branch `release/v0.2.0`), and naming a promotion (`release: v0.2.0 to stage`) |
+| `deploy` | A deploy PR in `wildfire-k8s-clusters`, opened by CI (`deploy: backend to rd 1a2b3c4`) |
 
 More examples: `fix: refuse requests without a token` on `fix/require-token`, `docs: explain the retry policy` on
 `docs/retry-policy`.
@@ -106,10 +106,9 @@ More examples: `fix: refuse requests without a token` on `fix/require-token`, `d
 Add `!` before the colon when the change breaks callers or config: `feat!: drop the v1 perimeter endpoint`, and say
 what changes under **Config changes** in the PR's description, marked **Breaking**. Put the why in the PR description: it becomes the commit body.
 
-A hotfix branch is `hotfix/<what>`, and its title must be `fix: <what>` ([Hotfix](#hotfix)).
-
 Promotion pull requests (`rd` → `stage` → `production`) are merge commits and aren't checked, and neither are bots'
-(`renovate/…`, `dependabot/…`, `deploy/…`).
+(`renovate/…`, `dependabot/…`, `deploy/…`). Still, title a promotion `release: <version> to stage` (or `to production`):
+it's the merge commit's message on that branch.
 
 ## Rules
 
@@ -131,13 +130,14 @@ Promotion pull requests (`rd` → `stage` → `production`) are merge commits an
 
 ## Releases
 
-A release goes up in two pull requests, each with its own template. GitHub has no chooser for them: open each from
+A release goes up in three pull requests: one sets the version on `rd`, two promote it, each with its own template. GitHub has no chooser for them: open each from
 the links below, with `<repo>` replaced, or add `?template=<file>` to a new pull request's URL.
 
 | Step | Pull request | Open it with |
 | --- | --- | --- |
-| Release candidate | `rd` into `stage` | `https://github.com/sensenetInc/<repo>/compare/stage...rd?template=to-stage.md` |
-| Release | `stage` into `production` | `https://github.com/sensenetInc/<repo>/compare/production...stage?template=to-production.md` |
+| Version | `release/<version>` into `rd`, titled `release: <version>`: sets `## <version> (<date>)` in `CHANGELOG.md` | A normal pull request |
+| Release candidate | `rd` into `stage`, titled `release: <version> to stage` | `https://github.com/sensenetInc/<repo>/compare/stage...rd?template=to-stage.md` |
+| Release | `stage` into `production`, titled `release: <version> to production` | `https://github.com/sensenetInc/<repo>/compare/production...stage?template=to-production.md` |
 
 **Into `stage`** (`to-stage`): it decides what's in the release.
 
@@ -161,36 +161,6 @@ the links below, with `<repo>` replaced, or add `?template=<file>` to a new pull
 
 On merge into `production`, CI tags the version (`vX.Y.Z`, from `CHANGELOG.md`), creates its GitHub Release (the
 public notes, then the PR titles since the last release), and sends the public notes to `releases.wildfires.app`. Tags can't be created, moved or deleted by hand.
-
-### Hotfix
-
-For a bug in production that can't wait for the next release, when `rd` already holds work that isn't ready to ship.
-It fixes that one bug, as a patch version, and nothing else. Everything else goes through `rd`.
-
-1. **Branch from `production`:** `git switch production && git pull && git switch -c hotfix/<what>`
-2. **Fix the bug,** and add a new entry on top of `CHANGELOG.md` with exactly the next patch version and today's
-   date (`## v1.4.1 (2026-11-20)`, after `v1.4.0`) and its public line (or `- None`). `release / changelog` blocks
-   any other version.
-3. **Open the pull request into `production`** with the hotfix template:
-   `https://github.com/sensenetInc/<repo>/compare/production...hotfix/<what>?template=hotfix.md`. Title
-   `fix: <what>`. `release-source / source` checks the branch carries nothing from `rd`; `release / changelog` checks
-   the version and notes.
-4. **The same approvals as a release:** `platform`, `release-managers` and `security`. A release manager can
-   approve it outside the usual release times.
-5. **Merge.** CI tags the version and creates its GitHub Release, like any release.
-6. **Forward-port it to `rd` straight away:** a `fix/<what>` branch from `rd`, `git cherry-pick <the fix's commit>`,
-   and the hotfix's `CHANGELOG.md` entry placed, unchanged, **below** `rd`'s unreleased entry. A normal pull request
-   into `rd`. Without it, the next release brings the bug back.
-7. **If `stage` holds a release candidate,** it doesn't have the fix: open a new `rd` → `stage` pull request once the
-   forward-port is merged.
-
-```mermaid
-flowchart LR
-    P["production<br/>v1.4.0"] -- "git switch -c" --> H["hotfix/auth-crash<br/>fix + v1.4.1 entry"]
-    H -- "PR, 3 approvals" --> P2["production<br/>tag v1.4.1"]
-    H -. "cherry-pick" .-> F["fix/auth-crash<br/>from rd"]
-    F -- "PR, squash" --> R["rd<br/>next release keeps the fix"]
-```
 
 ## Every repo has
 
@@ -225,7 +195,6 @@ Newest first, one entry per version:
   version, a new feature a minor, a fix a patch. Until `v1.0.0`, a breaking change is a new minor. The
   `release / changelog` check enforces it on the PRs into `stage` and `production`, from the PR titles since the last
   release: `<type>!:` needs a major, `feat:` a minor. A bigger step is allowed; a smaller one or a gap blocks the PR.
-  A hotfix must be exactly the next patch.
 - **Unreleased changes** go under `## vX.Y.Z (unreleased)`, at the top, as they're merged into `rd`. The release
   pull request into `stage` sets the date. Nothing for users in a version: `- None`.
 - **Nothing internal:** no env vars, endpoints, hostnames, queue names or ticket numbers. It's published as is.
