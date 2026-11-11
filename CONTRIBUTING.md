@@ -18,7 +18,9 @@ Everything below about `rd`, `stage` and `production` is for the app repos and `
 branches are the three clusters.
 
 - **Each environment branch is deployed and protected.** Nobody pushes to `rd`, `stage` or `production` directly:
-  they change only through pull requests, with a code owner's approval and green checks.
+  they change only through pull requests with green checks. Into `rd`, the repo's own team (its code owners, e.g.
+  `backend`) or `platform` merges, with no second review; `stage` and `production` need one approval each from `platform`, `release-managers` and
+  `security`.
 - **`production` is the default branch,** so GitHub shows it first and suggests it as a pull request's base. Your
   pull requests go into **`rd`**: pick it as the base when you open one.
 - **Changes move up in order:** `rd`, then `stage`, then `production`. A fix goes into `rd` first and is promoted
@@ -43,9 +45,14 @@ Then open a pull request into `rd` (not the default `production`):
    screenshots for anything visible, and its checklist.
 2. **For a release**, use its template instead ([Releases](#releases)): `to-stage` for `rd` into `stage`,
    `to-production` for `stage` into `production`.
-3. **Merge once every required check is green and it's approved:** into `rd`, by a code owner (`platform`, for now); into `stage` and `production`, by someone from each of `platform`, `release-managers` and
-   `security` (one person in several of them covers each). Not your own approval. A new
-   push clears earlier approvals, so the reviewer approves what's actually merged.
+3. **Merge once every required check is green:**
+   - **Into `rd`:** the repo's own team (`backend` in `wildfire-backend`, …) or `platform` reviews and merges; no second
+     approval is needed, and only they can merge. Nobody can merge past a failing check or push directly. In
+     `wildfire-k8s-clusters`, each app team merges its own app's deploy PRs into `rd` (or `platform` does); GitHub
+     can't limit a team to its folder, so merge only your app's.
+   - **Into `stage` and `production`:** one approval each from `platform`, `release-managers` and `security` (one
+     person in several of them covers each), never your own. A new push clears earlier approvals, so the reviewer
+     approves what's actually merged.
 4. **Delete the branch** after merging.
 
 Keep pull requests small: one feature or fix each, reviewable in one sitting. Rebase on `rd` (or merge `rd` in) if
