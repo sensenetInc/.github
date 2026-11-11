@@ -64,7 +64,7 @@ organization, so they're the same in every repo.
 | `security / iac` | Risky Dockerfiles and Kubernetes manifests (Trivy, Hadolint) | Fix the file, or ask for an exception |
 | `pr-title / title` | The PR title and its branch follow [PR titles and branches](#pr-titles-and-branches) | Edit the title (the check re-runs); a wrong branch name needs a new branch and PR |
 | `ci-security-review / review` | An AI security review of the change, into `rd` only | Fix the high findings, or `@sensenetInc/security` accepts them with the `security-review-accepted` label |
-| `release-source / source` | `stage` takes pull requests from `rd` only, `production` from `stage` only | Open it from the right branch ([Releases](#releases)) |
+| `release-source / source` | `rd` takes pull requests from your `<type>/<what>` branches, never from `stage` or `production`; `stage` from `rd` only; `production` from `stage` only (app repos with releases) | Open it from the right branch ([Releases](#releases)) |
 
 - **Only new findings block.** What was already there when a check was turned on is tracked separately.
 - **Exceptions** live in `.trivyignore`, `.semgrepignore` or `.gitleaksignore`, each with a reason and an expiry,
