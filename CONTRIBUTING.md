@@ -232,6 +232,9 @@ Newest first, one entry per version:
 - **Where the internal notes are:** settings and contract changes in each PR's description (**Config changes**),
   collected by the `to-stage` and `to-production` PRs for the platform team. The list of changes is generated: the
   GitHub Release adds every PR title since the last release under **Changes**.
+- **What's on `rd`, not released yet:** each app repo's draft release **Next release (rd)** (Releases page), rebuilt
+  on every merge into `rd`: every PR title since the last release, grouped, and the smallest next version. Use it to
+  write the public lines when you prepare a release.
 - **The release workflow reads this format:** the newest `## vX.Y.Z (date)` heading is the version it tags, and that
   entry is what it publishes.
 - **Never a secret's value,** only its key.
