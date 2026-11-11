@@ -26,8 +26,14 @@ Before and after, for any change you can see. Otherwise: `N/A`.
 
 ## Release note
 
-One plain-language line for customers, copied into `CHANGELOG.md` under **Release notes** (published on
+One plain-language line for customers, added to the top entry of `CHANGELOG.md` (published on
 `releases.wildfires.app`). Otherwise: `None`.
+
+## Config changes
+
+Every change to the contract: env vars (and in which `config/<cluster>/*.env`), Secrets, endpoints, message and file
+shapes, ports, schema. Mark a breaking one **Breaking** (and title the PR `<type>!: …`). The release PRs collect
+these for the platform team. Otherwise: `None`.
 
 ## Technical notes
 
@@ -36,7 +42,7 @@ Design decisions, edge cases, anything the reviewer should look at closely. Othe
 ## Checklist
 
 - [ ] The repo's check passes (its README, "Contributing")
-- [ ] `CHANGELOG.md` updated, under **Config**, if env vars, endpoints, message shapes, ports or the schema changed
-- [ ] `docs/` updated if setup, configuration, integrations or operations changed
+- [ ] **Config changes** above filled in (or `None`), and the README updated if it documents the contract
+- [ ] `CHANGELOG.md` updated if users will notice it
 - [ ] No secrets or credentials in the diff
 - [ ] Every required check is green; the security review's comments are answered (fixed, or accepted by security)

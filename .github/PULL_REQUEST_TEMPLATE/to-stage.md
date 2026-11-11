@@ -21,13 +21,13 @@ Every pull request merged into `rd` since the last release to `stage`:
 
 ## Config and database changes for stage
 
-Copied from `CHANGELOG.md`: what the platform team must change for `stage`, before or with
+Collected from the included PRs' **Config changes**: what the platform team must change for `stage`, before or with
 this image (env vars, Secrets, endpoints, schema). Otherwise: `None`.
 
 ## Release notes
 
-The public lines under **Release notes** in `CHANGELOG.md` for this version, checked for customers: plain
-language, nothing internal. Otherwise: `None`.
+This version's entry in `CHANGELOG.md` (public), checked for customers: plain language, nothing internal.
+Otherwise: `None`.
 
 ## QA plan
 
@@ -38,7 +38,8 @@ What to test on `stage`, and who tests it: features, flows, URLs, API calls.
 
 ## Checklist
 
-- [ ] Every included change has a `CHANGELOG.md` entry under this version, with its date set
+- [ ] The version and date set in `CHANGELOG.md`
+- [ ] Every included PR's **Config changes** collected above
 - [ ] Release notes checked: plain language, nothing internal
 - [ ] Deployed on `rd` and checked there
 - [ ] Config and database changes for `stage` handed to the platform team

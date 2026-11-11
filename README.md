@@ -8,7 +8,7 @@ copied into each repo.
 
 | Path | What | Used by |
 | --- | --- | --- |
-| `CONTRIBUTING.md` | Branches, workflow, commit messages, rules, releases, what every repo has, the changelog format | Every repo's README, "Contributing", links to it. GitHub also links it when someone opens an issue or pull request |
+| `CONTRIBUTING.md` | Branches, workflow, PR titles and branch names, rules, releases, what every repo has, the changelog format | Every repo's README, "Contributing", links to it. GitHub also links it when someone opens an issue or pull request |
 | `SECURITY.md` | How to report a vulnerability, response times, leaked secrets, scope | Every repo's **Security** tab, and the **New issue** page |
 | `CODE_OF_CONDUCT.md` | How we treat each other, and how to report a breach | Every repo's community profile |
 | `SUPPORT.md` | Where to go with a question or a problem | Every repo, linked when someone opens an issue |
