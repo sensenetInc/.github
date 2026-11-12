@@ -1,7 +1,7 @@
 # Changelog
 
 What changed in the files every `sensenetInc` repo inherits. They apply to every repo as soon as they're merged
-into `production`, so each entry says what changes for the other repos, under **Affects every repo**.
+into `main`, so each entry says what changes for the other repos, under **Affects every repo**.
 
 ## v1.1.0 (unreleased)
 
@@ -11,8 +11,8 @@ Changes:
 - Changelog format: `### Release notes` (public), `### Changes`, `### Config`, `### Database` headings.
 - Pull request templates: a release note line, docs and checks in the checklist; release notes checked in
   `to-stage`; release manager approval in `to-production`.
-- Default branch `main` for this repo and every repo that isn't deployed; app repos keep `rd`, `stage`, `production`
-  (default `production`). Links to these files use `blob/main/`.
+- Default branch `production` for every repo: the only branch of repos that aren't deployed, and the default of the app
+  repos (`rd`, `stage`, `production`). This repo keeps `main`; links to its files use `blob/main/`.
 - `README.md`: what never goes in this public repo; shared CI lives in `sensenetInc/github-org`.
 
 Affects every repo:

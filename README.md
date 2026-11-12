@@ -46,8 +46,9 @@ owner's approval, no force-push. Fork pull requests need a maintainer's approval
 - **This repo must be public** for GitHub to apply its files to the other repos, even private ones. If it's
   private, nothing here is applied: repos get no templates, and only the README links reach `CONTRIBUTING.md`.
 - **Only the default branch counts:** `main`. Changes apply as soon as they're merged there. This repo isn't
-  deployed, so it has only `main`, like every repo without environments; only the app repos and `wildfire-k8s-clusters`
-  (one branch per cluster) have `rd`, `stage` and `production`.
+  deployed, so it has only that one branch. It's the only repo whose branch is `main`: every other repo without
+  environments has one branch, `production`, and the app repos and `wildfire-k8s-clusters` (one branch per cluster)
+  have `rd`, `stage` and `production`.
 - **Issue types:** each issue template sets `type:` (Feature, Improvement, Bug, Security, Task). A type takes effect
   only if it exists in the organization's settings, under **Issue types**. GitHub creates Task, Bug and Feature;
   Improvement and Security must be added there.
