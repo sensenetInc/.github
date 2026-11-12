@@ -1,5 +1,5 @@
 <!-- A release candidate: rd into stage. Open it with ?template=to-stage.md.
-     How we release: https://github.com/sensenetInc/.github/blob/main/CONTRIBUTING.md#releases -->
+     How we release: https://github.com/sensenetInc/.github/blob/production/CONTRIBUTING.md#releases -->
 
 ## Release
 

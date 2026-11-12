@@ -14,7 +14,6 @@ commit, and what counts as its contract.
 | `feat/...`, `fix/...`, … | Your work, one branch per change, made from `rd` | You push to it |
 
 Repos that aren't deployed (shared config, docs) have one branch, **`production`**: open your pull request into it.
-(This public `.github` repo is the one exception: its branch is `main`.)
 Everything below about `rd`, `stage` and `production` is for the app repos and `wildfire-k8s-clusters`, whose three
 branches are the three clusters.
 

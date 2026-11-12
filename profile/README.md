@@ -5,10 +5,10 @@ watch them, checked by vision models for smoke and fire, and combined with fire-
 data on maps.
 
 Our repos are private. If you're part of the team, start with
-[CONTRIBUTING.md](https://github.com/sensenetInc/.github/blob/main/CONTRIBUTING.md): how we branch, commit,
+[CONTRIBUTING.md](https://github.com/sensenetInc/.github/blob/production/CONTRIBUTING.md): how we branch, commit,
 review and release.
 
 - **Found a security problem?** Email security@sensenet.ai, never a public issue:
-  [our security policy](https://github.com/sensenetInc/.github/blob/main/SECURITY.md).
-- **Code of conduct:** [CODE_OF_CONDUCT.md](https://github.com/sensenetInc/.github/blob/main/CODE_OF_CONDUCT.md).
+  [our security policy](https://github.com/sensenetInc/.github/blob/production/SECURITY.md).
+- **Code of conduct:** [CODE_OF_CONDUCT.md](https://github.com/sensenetInc/.github/blob/production/CODE_OF_CONDUCT.md).
 - **Website:** [sensenet.ai](https://sensenet.ai)
