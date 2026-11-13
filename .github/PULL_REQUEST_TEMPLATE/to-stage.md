@@ -1,6 +1,5 @@
 <!-- A release candidate: release-candidate/<version> (cut from rd) into stage. Open it with ?template=to-stage.md.
-     The title is set for you: release: <version> to stage.
-     How we release: https://github.com/sensenetInc/.github/blob/production/CONTRIBUTING.md#releases -->
+     The title is set for you: release: <version> to stage. -->
 
 ## Release
 
