@@ -1,0 +1,10 @@
+# Who reviews changes to this repo. GitHub requests a review from the matching owners on every pull request, and,
+# with branch protection's "Require review from Code Owners" on, an owner must approve before merging.
+# This file covers this repo only: GitHub never inherits CODEOWNERS (or LICENSE) from another repo, so every repo has
+# its own. The community files and templates here are inherited, as defaults for repos without their own, so every
+# change here is reviewed by the people who run how we work.
+#
+# Teams are managed in the organization's settings, under Teams. A team listed here must have write access to
+# this repo, or GitHub ignores the line.
+
+*   @sensenetInc/platform
