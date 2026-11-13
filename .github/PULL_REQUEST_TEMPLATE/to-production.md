@@ -1,6 +1,5 @@
 <!-- A release: stage into production. Open it with ?template=to-production.md.
-     It ships what was checked on stage, and nothing else. The title is set for you: release: <version> to production.
-     How we release: https://github.com/sensenetInc/.github/blob/production/CONTRIBUTING.md#releases -->
+     It ships what was checked on stage, and nothing else. The title is set for you: release: <version> to production. -->
 
 ## Release
 
