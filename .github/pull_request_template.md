@@ -44,4 +44,5 @@ Design decisions, edge cases, anything the reviewer should look at closely. Othe
 - [ ] **Config changes** above filled in (or `None`), and the README updated if it documents the contract
 - [ ] `CHANGELOG.md` updated if users will notice it
 - [ ] No secrets or credentials in the diff
+- [ ] Nothing changed under `.github/` (workflows, CODEOWNERS, templates), or it's a `ci:` PR approved by `platform`. **Code owner:** check **Files changed** before you merge
 - [ ] Every required check is green; the security review's comments are answered (fixed, or accepted by security)
