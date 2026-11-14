@@ -32,7 +32,7 @@ One plain-language line for customers, added to the top entry of `CHANGELOG.md` 
 ## Config changes
 
 Every change to the contract: env vars (and in which `config/<cluster>/*.env`), Secrets, endpoints, message and file
-shapes, ports, schema. Mark a breaking one **Breaking** (and add `!` to the title, `<type>!: …`: the only title edit CI keeps). The release PRs collect
+shapes, ports, schema. Mark a breaking one **Breaking** (and name the branch `<type>!/<what>`: CI titles it `<type>!: …`). The release PRs collect
 these for the platform team. Otherwise: `None`.
 
 ## Technical notes
