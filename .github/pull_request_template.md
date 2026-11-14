@@ -26,12 +26,13 @@ Before and after, for any change you can see. Otherwise: `N/A`.
 ## Release note
 
 One plain-language line for customers, added to the top entry of `CHANGELOG.md` (published on
-`releases.wildfires.app`). Otherwise: `None`.
+`releases.wildfires.app`) under the heading for this PR's type: `### New features` (`feat`), `### Bug fixes` (`fix`),
+`### Security` (`sec`), `### Improvements` (anything else users notice). Otherwise: `None`.
 
 ## Config changes
 
 Every change to the contract: env vars (and in which `config/<cluster>/*.env`), Secrets, endpoints, message and file
-shapes, ports, schema. Mark a breaking one **Breaking** (and title the PR `<type>!: …`). The release PRs collect
+shapes, ports, schema. Mark a breaking one **Breaking** (and add `!` to the title, `<type>!: …`: the only title edit CI keeps). The release PRs collect
 these for the platform team. Otherwise: `None`.
 
 ## Technical notes
@@ -41,7 +42,7 @@ Design decisions, edge cases, anything the reviewer should look at closely. Othe
 ## Checklist
 
 - [ ] The repo's check passes (its README, "Contributing")
-- [ ] The title's type fits the change, since it sets the version: `feat` = new for users (minor), `fix` = a bug, `sec` = a security fix (patch), `!` = others must change (major). **Code owner:** check it
+- [ ] The branch's type (the title is written from it) fits the change, since it sets the version: `feat` = new for users (minor), `fix` = a bug, `sec` = a security fix (patch), `!` = others must change (major). **Code owner:** check it
 - [ ] **Config changes** above filled in (or `None`), and the README updated if it documents the contract
 - [ ] `CHANGELOG.md` updated if users will notice it
 - [ ] No secrets or credentials in the diff
