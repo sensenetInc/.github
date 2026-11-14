@@ -41,6 +41,7 @@ Design decisions, edge cases, anything the reviewer should look at closely. Othe
 ## Checklist
 
 - [ ] The repo's check passes (its README, "Contributing")
+- [ ] The title's type fits the change, since it sets the version: `feat` = new for users (minor), `fix` = a bug, `sec` = a security fix (patch), `!` = others must change (major). **Code owner:** check it
 - [ ] **Config changes** above filled in (or `None`), and the README updated if it documents the contract
 - [ ] `CHANGELOG.md` updated if users will notice it
 - [ ] No secrets or credentials in the diff
