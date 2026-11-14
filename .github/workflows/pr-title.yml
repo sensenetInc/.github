@@ -1,0 +1,55 @@
+# This repo's PR titles: written from the branch on every run, over whatever was typed, the same rule as every other
+# repo (github-org's pr-title.yml). A copy, not a call: this repo is public, so it can't call github-org (private), and
+# it runs on a GitHub-hosted runner, never on our self-hosted ones (a public repo's PR code must never run there).
+#   <type>/<what>         -> "<type>: <what>"      (docs/changelog-headings -> "docs: changelog headings")
+#   <type>!/<what>        -> "<type>!: <what>"     (a breaking change)
+#   revert-<n>-…          -> "revert: <what PR n's title said>"  (GitHub's Revert button)
+#   renovate/*, dependabot/* -> "build: <the rest of the branch>"
+# A PR from a fork gets a read-only token, so its title can't be written: the check fails and names the title to set.
+name: pr-title
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+permissions:
+  contents: read
+  pull-requests: write   # writes the PR's title
+
+jobs:
+  title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Title from the branch
+        env:
+          TITLE: ${{ github.event.pull_request.title }}   # via env, never ${{ }} inside the script: both are user input
+          HEAD: ${{ github.head_ref }}
+          PR: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          types='feat|fix|sec|perf|refactor|docs|test|build|ci|chore|revert|release|deploy'
+          write_title() {
+            if [ "$TITLE" = "$1" ]; then echo "title ok: $1"
+            elif gh pr edit "$PR" --repo "$GITHUB_REPOSITORY" --title "$1" >/dev/null; then
+              echo "Title written: \`$1\` (was \`$TITLE\`)." | tee -a "$GITHUB_STEP_SUMMARY"
+            else
+              echo "::error::Couldn't write the title (a PR from a fork has a read-only token). Set it to: $1" | tee -a "$GITHUB_STEP_SUMMARY"; exit 1
+            fi
+          }
+          spaces() { sed -e 's|/| |g' -e 's|[-_]| |g'; }
+
+          case "$HEAD" in renovate/*|dependabot/*)
+            write_title "build: $(printf '%s' "${HEAD#*/}" | spaces)"; exit 0 ;;
+          esac
+          if printf '%s' "$HEAD" | grep -Eq '^revert-[0-9]+-'; then
+            n=$(printf '%s' "$HEAD" | sed -E 's/^revert-([0-9]+)-.*/\1/')
+            reverted=$(gh pr view "$n" --repo "$GITHUB_REPOSITORY" --json title --jq .title 2>/dev/null || true)
+            what=$(printf '%s' "$reverted" | sed -E "s/^(${types})!?(\(.*\))?: //")
+            [ -n "$what" ] || what=$(printf '%s' "$HEAD" | sed -E 's/^revert-[0-9]+-//' | spaces)
+            write_title "revert: $what"; exit 0
+          fi
+          if ! printf '%s' "$HEAD" | grep -Eq "^(${types})!?/[a-z0-9][a-z0-9._/-]{2,}$"; then
+            echo "::error::Branch must be '<type>/<what>' ('<type>!/<what>' for a breaking change), lowercase with - between words. Got: $HEAD. Types: ${types//|/, }. Push it under a right name and open a new PR." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          write_title "$(printf '%s' "$HEAD" | sed -e 's|/|: |' -e 's|[-_]| |g')"
