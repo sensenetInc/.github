@@ -43,5 +43,5 @@ What to watch, and for how long: logs, dashboards, error rates, key flows to try
 - [ ] Release time agreed, and someone available to roll back
 - [ ] Approved by a code owner and a release manager (the go/no-go)
 
-On merge, CI tags the version from `CHANGELOG.md`, creates its GitHub Release (with the PR titles since the last release), and sends the public notes to
-`releases.wildfires.app`. Don't create the tag by hand: only CI can.
+On merge, CI tags the version from `CHANGELOG.md`, creates its GitHub Release (with the PR titles since the last release); the platform release then publishes the
+notes on `releases.wildfires.app`, as worded on stage. Don't create the tag by hand: only CI can.

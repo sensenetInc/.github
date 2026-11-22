@@ -23,12 +23,6 @@ Exact steps for the reviewer: URLs, API calls or commands, and what to expect.
 
 Before and after, for any change you can see. Otherwise: `N/A`.
 
-## Release note
-
-One plain-language line for customers, added to the top entry of `CHANGELOG.md` (published on
-`releases.wildfires.app`) under the heading for this PR's type: `### New features` (`feat`), `### Bug fixes` (`fix`),
-`### Security` (`sec`), `### Improvements` (anything else users notice). Otherwise: `None`.
-
 ## Config changes
 
 Every change to the contract: env vars (and in which `config/<cluster>/*.env`), Secrets, endpoints, message and file
@@ -44,7 +38,7 @@ Design decisions, edge cases, anything the reviewer should look at closely. Othe
 - [ ] The repo's check passes (its README, "Contributing")
 - [ ] The branch's type (the title is written from it) fits the change, since it sets the version: `feat` = new for users (minor), `fix` = a bug, `sec` = a security fix (patch), `!` = others must change (major). **Code owner:** check it
 - [ ] **Config changes** above filled in (or `None`), and the README updated if it documents the contract
-- [ ] `CHANGELOG.md` updated if users will notice it
+- [ ] `CHANGELOG.md` not touched: the release drafts its notes from the PR titles, so the branch reads as the line customers will see (`feat/camera-groups-by-site` → "Camera groups by site.")
 - [ ] No secrets or credentials in the diff
 - [ ] Nothing changed under `.github/` (workflows, CODEOWNERS, templates), or it's a `ci:` PR approved by `platform`. **Code owner:** check **Files changed** before you merge
 - [ ] Every required check is green; the security review's comments are answered (fixed, or accepted by security)
